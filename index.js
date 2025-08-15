@@ -10,7 +10,7 @@ dotenv.config();
 
 const app = express();
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -23,8 +23,8 @@ app.use("/firm", firmRoutes);
 app.use("/product", productRoutes);
 // app.use("/uploads", express.static("uploads"));
 
-app.use("/home", (req, res) => {
-  res.send("<h1> Welcome to SUBY");
+app.use("/", (req, res) => {
+  res.send("<h1> Welcome to DineDash");
 });
 
 app.listen(PORT, () => console.log(`Server started and running at ${PORT}`));
