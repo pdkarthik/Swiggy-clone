@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
 const imageUpload = multer({
   storage,
   fileFilter: (req, file, cb) => {
-    const allowed = /jpg|jpeg|png|gif|webp|heic|heif/;
+    const allowed = /jpg|jpeg|png|gif|webp|heic|heif|avif/;
     const ext = path.extname(file.originalname).toLowerCase();
     if (allowed.test(ext)) {
       cb(null, true);
@@ -41,7 +41,7 @@ const imageUpload = multer({
       cb(null, false);
       return cb(
         new Error(
-          "Only image files (jpg, jpeg, png, gif, webp, heic, heif) are allowed"
+          "Only image files (jpg, jpeg, png, gif, webp, heic, heif, avif) are allowed"
         )
       );
     }
@@ -56,7 +56,16 @@ const addFirm = async (req, res) => {
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
         folder: "uploads",
-        allowed_formats: ["jpg", "jpeg", "png", "gif", "webp", "heic", "heif"],
+        allowed_formats: [
+          "jpg",
+          "jpeg",
+          "png",
+          "gif",
+          "webp",
+          "heic",
+          "heif",
+          "avif",
+        ],
         format: "webp", // ✅ Convert to WebP for better quality + smaller size
         quality: "auto", // ✅ Let Cloudinary pick optimal compression
         fetch_format: "auto", // ✅ Auto-select format for client
